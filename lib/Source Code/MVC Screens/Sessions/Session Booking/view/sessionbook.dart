@@ -158,93 +158,93 @@ class _SessionBookState extends State<SessionBook>
         Column(children: [
           Stack(
             children: [
-              // Container(
-              //   height: 110.0,
-              //   width: double.infinity,
-              //   decoration: new BoxDecoration(
-              //       color: AppColors
-              //           .ORANGE_COLOR, //new Color.fromRGBO(255, 0, 0, 0.0),
-              //       borderRadius: new BorderRadius.only(
-              //           bottomLeft: const Radius.circular(10.0),
-              //           bottomRight: const Radius.circular(10.0))),
-              //   child: SafeArea(
-              //     child: Align(
-              //       alignment: Alignment.topCenter,
-              //       child: Padding(
-              //         padding: const EdgeInsets.only(
-              //             left: 22.0, right: 24.0, top: 10.0),
-              //         child: Column(
-              //           children: [
-              //             Row(
-              //               children: [
-              //                 // Builder(
-              //                 //   builder: (context) => GestureDetector(
-              //                 //     // child: Image.asset(
-              //                 //     //   AssetPaths.DRAWER_ICON,
-              //                 //     //   scale: 2.5,
-              //                 //     // ),
-              //                 //     onTap: () {},
-              //                 //     //  ZoomDrawer.of(context)?.toggle(),
-              //                 //     // _scaffoldKey.currentState?.openDrawer();
-              //                 //   ),
-              //                 // ),
-              //                 Builder(builder: (context) {
-              //                   return GestureDetector(
-              //                       onTap: () {
-              //                         Scaffold.of(context).openDrawer();
-              //                       },
-              //                       child: Image.asset(
-              //                         AssetPaths.DRAWER_ICON,
-              //                         scale: 1,
-              //                       ));
-              //                 }),
-              //                 Spacer(),
-              //                 CustomTextWidget(
-              //                   text: "SERVICES AND SESSIONS",
-              //                   Text_Color: AppColors.BLACK_COLOR,
-              //                   Text_fontSize: 1.3,
-              //                   Text_fontWeight: FontWeight.bold,
-              //                 ),
-              //                 Spacer(),
-              //                 InkWell(
-              //                   onTap: () {
-              //                     Get.back();
-              //                   },
-              //                   child: Image.asset(
-              //                     AssetPaths.WHITE_BACK_BTN_IMAGE,
-              //                     scale: 1.0,
-              //                   ),
-              //                 ),
-              //               ],
-              //             ),
-              //             TabBar(
-              //               controller: tabController,
-              //               unselectedLabelColor: AppColors.BLACK_COLOR,
-              //               indicatorSize: TabBarIndicatorSize.label,
-              //               indicatorWeight: 5.0,
-              //               labelStyle: TextStyle(
-              //                   fontSize: 16, fontWeight: FontWeight.w500),
-              //               unselectedLabelStyle: TextStyle(
-              //                   fontSize: 16, fontWeight: FontWeight.w400),
-              //               labelColor: AppColors.WHITE_COLOR,
-              //               indicatorColor: AppColors.BLACK_COLOR,
-              //               isScrollable: true,
-              //               tabs: [
-              //                 Tab(text: "All Services"),
-              //                 Tab(
-              //                   text: "Your sessions",
-              //                 ),
-              //               ],
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              CustomAppBar(
-                text: "SERVICES & SESSIONS",
+              Container(
+                height: 110.0,
+                width: double.infinity,
+                decoration: new BoxDecoration(
+                    color: AppColors
+                        .ORANGE_COLOR, //new Color.fromRGBO(255, 0, 0, 0.0),
+                    borderRadius: new BorderRadius.only(
+                        bottomLeft: const Radius.circular(10.0),
+                        bottomRight: const Radius.circular(10.0))),
+                child: SafeArea(
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 22.0, right: 24.0, top: 10.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              // Builder(
+                              //   builder: (context) => GestureDetector(
+                              //     // child: Image.asset(
+                              //     //   AssetPaths.DRAWER_ICON,
+                              //     //   scale: 2.5,
+                              //     // ),
+                              //     onTap: () {},
+                              //     //  ZoomDrawer.of(context)?.toggle(),
+                              //     // _scaffoldKey.currentState?.openDrawer();
+                              //   ),
+                              // ),
+                              Builder(builder: (context) {
+                                return GestureDetector(
+                                    onTap: () {
+                                      Scaffold.of(context).openDrawer();
+                                    },
+                                    child: Image.asset(
+                                      AssetPaths.DRAWER_ICON,
+                                      scale: 1,
+                                    ));
+                              }),
+                              Spacer(),
+                              CustomTextWidget(
+                                text: "SERVICES AND SESSIONS",
+                                Text_Color: AppColors.BLACK_COLOR,
+                                Text_fontSize: 1.3,
+                                Text_fontWeight: FontWeight.bold,
+                              ),
+                              Spacer(),
+                              InkWell(
+                                onTap: () {
+                                  Get.back();
+                                },
+                                child: Image.asset(
+                                  AssetPaths.WHITE_BACK_BTN_IMAGE,
+                                  scale: 1.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                          TabBar(
+                            controller: tabController,
+                            unselectedLabelColor: AppColors.BLACK_COLOR,
+                            indicatorSize: TabBarIndicatorSize.label,
+                            indicatorWeight: 5.0,
+                            labelStyle: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500),
+                            unselectedLabelStyle: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w400),
+                            labelColor: AppColors.WHITE_COLOR,
+                            indicatorColor: AppColors.BLACK_COLOR,
+                            isScrollable: true,
+                            tabs: [
+                              Tab(text: "All Services"),
+                              Tab(
+                                text: "Your sessions",
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ),
+              // CustomAppBar(
+              //   text: "SERVICES & SESSIONS",
+              // ),
             ],
           ),
           Expanded(

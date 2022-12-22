@@ -41,7 +41,8 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.only(right: 20.0, left: 12.0),
+              padding:
+                  const EdgeInsets.only(right: 20.0, left: 12.0, top: 20.0),
               child: SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 child: Center(
@@ -100,19 +101,19 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                            left: 85.0, right: 85.0, top: 30.0, bottom: 30.0),
+                            left: 85.0, right: 85.0, top: 40.0, bottom: 30.0),
                         child: GeneralButton(
                           Btn_Background_color: AppColors.ORANGE_COLOR,
                           Btn_TextColor: AppColors.WHITE_COLOR,
                           Btn_TextName: AppStrings.LOGIN_TEXT,
-                          //font_weight: FontWeight.bold,
                           ontapBtn: () {
-                            //   LoginVal.LoginVal(email.text, password.text);
+                            FocusManager.instance.primaryFocus?.unfocus();
                             LoginAuth.LoginUser(email.text, password.text);
-                            // print(email.text);
-                            // Get.toNamed('/Home');
                           },
                         ),
+                      ),
+                      SizedBox(
+                        height: 10.0,
                       ),
                       InkWell(
                         onTap: () {
@@ -125,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: 18.0,
+                        height: 20.0,
                       ),
                       InkWell(
                         onTap: () {
@@ -137,41 +138,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           Text_fontSize: 1.0,
                         ),
                       ),
-                      SizedBox(
-                        height: 50.0,
-                      ),
-                      CustomTextWidget(
-                        text: AppStrings.OTHER_LOGINS_TEXT,
-                        Text_Color: AppColors.BLACK_COLOR,
-                        Text_fontSize: 1.0,
-                      ),
-                      SizedBox(
-                        height: 24.0,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            AssetPaths.GOOGLE_BTN,
-                            scale: 0.8,
-                          ),
-                          SizedBox(
-                            width: 26.0,
-                          ),
-                          Image.asset(
-                            AssetPaths.FB_ICON,
-                            scale: 0.8,
-                          ),
-                          SizedBox(
-                            width: 26.0,
-                          ),
-                          if (Platform.isIOS)
-                            Image.asset(
-                              AssetPaths.APPLE_BTN,
-                              scale: 0.8,
-                            ),
-                        ],
-                      )
                     ],
                   ),
                 ),

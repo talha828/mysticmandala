@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:mysticmandala/Source%20Code/utils/appcolors.dart';
@@ -307,7 +308,16 @@ class _HertzMusicState extends State<HertzMusic> {
           ),
           isLoading == true
               ? Center(
-                  child: CircularProgressIndicator(),
+                  child: SpinKitCircle(
+                      itemBuilder: (BuildContext context, int index) {
+                    return DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: index.isEven
+                            ? AppColors.ORANGE_COLOR
+                            : AppColors.BLACK_COLOR,
+                      ),
+                    );
+                  }),
                 )
               : Stack(),
         ],

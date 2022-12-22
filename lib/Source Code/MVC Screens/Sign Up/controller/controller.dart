@@ -37,6 +37,7 @@ class SignupController extends GetxController {
           Uri.parse(
               'https://mysticmandala.app/?gmgt_json_api=member_registration'),
           body: json.encode(data1));
+      print(data1);
       print(response.body);
       var StoreSignUpData = jsonDecode(response.body);
       if (response.statusCode == 200) {
@@ -46,7 +47,7 @@ class SignupController extends GetxController {
         // box.write("userId", fetchSignUpResponse.user.id);
         print("+++++++++++++++++++++++++");
         //  print(fetchSignUpResponse.user.id);
-        ShowDialog("Congratulations", "${fetchSignUpResponse.error}",
+        ShowDialog("Congratulations", "Your Account is Created Successfully",
             AppColors.GREEN_COLOR);
         Get.toNamed('/Login');
       } else if (response.statusCode != 200) {

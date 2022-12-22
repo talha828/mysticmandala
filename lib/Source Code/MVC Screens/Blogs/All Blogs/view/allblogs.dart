@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:mysticmandala/Source%20Code/MVC%20Screens/Blogs/All%20Blogs/view/post.dart';
@@ -9,6 +10,7 @@ import '../../../../utils/assetpaths.dart';
 import '../../../../widgets/Custom App bar/custom_app_bar.dart';
 import '../../../../widgets/Text/customText.dart';
 import '../../../Home/view/home.dart';
+import '../../Blog Details/view/blogdetails.dart';
 
 class AllBlogs extends StatefulWidget {
   const AllBlogs({Key? key}) : super(key: key);
@@ -19,6 +21,8 @@ class AllBlogs extends StatefulWidget {
 
 class _AllBlogsState extends State<AllBlogs> {
   Post postservice = Post();
+
+  double currentPage = 0;
   @override
   void initState() {
     // TODO: implement initState
@@ -578,59 +582,149 @@ class _AllBlogsState extends State<AllBlogs> {
           //   //   ),
           //   // ),
           // ),
-          Container(
-            height: 600.0,
-            child: FutureBuilder<List>(
-              future: postservice.getAllPost(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  if (snapshot.data?.length == 0) {
+          Expanded(
+            child: Container(
+              child: FutureBuilder<List>(
+                future: postservice.getAllPost(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data?.length == 0) {
+                      return Center(
+                        child: Text("No Posts"),
+                      );
+                    }
+                    return ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, i) {
+                          return Container(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 12.0, right: 20.0),
+                              child: Column(children: [
+                                snapshot.data?[i]['tags'].toString() != '[59]'
+                                    ? Column(
+                                        children: [
+                                          //  Text("Yh 59 Tag waly  hai"),
+                                          Align(
+                                            child: CustomTextWidget(
+                                              text: snapshot.data?[i]
+                                                      ['_embedded']['author'][0]
+                                                  ['name'],
+                                              Text_Color: AppColors.BLACK_COLOR
+                                                  .withOpacity(0.5),
+                                              Text_fontSize: 1.2,
+                                              Text_fontWeight: FontWeight.bold,
+                                            ),
+                                            alignment: Alignment.topLeft,
+                                          ),
+                                          // Align(
+                                          //   child: CustomTextWidget(
+                                          //     text: snapshot.data?[i]['tags']
+                                          //         .toString(),
+                                          //     Text_Color: AppColors.BLACK_COLOR
+                                          //         .withOpacity(0.5),
+                                          //     Text_fontSize: 1.2,
+                                          //     Text_fontWeight: FontWeight.bold,
+                                          //   ),
+                                          //   alignment: Alignment.topLeft,
+                                          // ),
+                                          SizedBox(
+                                            height: 12.0,
+                                          ),
+                                          Image.network(snapshot.data?[i]
+                                                      ['_embedded']
+                                                  ['wp:featuredmedia'][0]
+                                              ['source_url']),
+                                          SizedBox(
+                                            height: 12.0,
+                                          ),
+                                          CustomTextWidget(
+                                            text: snapshot.data![i]['title']
+                                                ['rendered'],
+                                            Text_Color: AppColors.BLACK_COLOR,
+                                            Text_fontSize: 1.2,
+                                            Text_fontWeight: FontWeight.bold,
+                                          ),
+                                          SizedBox(
+                                            height: 12.0,
+                                          ),
+                                          Text(
+                                            snapshot.data![i]['content']
+                                                    ['rendered']
+                                                .toString()
+                                                .replaceAll("<p>", "")
+                                                .replaceAll("</p>", "")
+                                                .replaceAll("<b>", "")
+                                                .replaceAll("</b>", "")
+                                                .replaceAll("<i>", "")
+                                                .replaceAll("<br />", "")
+                                                .replaceAll("</i>", "")
+                                                .replaceAll("&nbsp;", " "),
+                                            maxLines: 14,
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.justify,
+                                            style: TextStyle(
+                                                fontSize: 16.0,
+                                                color: AppColors.BLACK_COLOR),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          BlogDetails(
+                                                              data: snapshot
+                                                                  .data?[i])));
+                                            },
+                                            child: Row(
+                                              children: [
+                                                CustomTextWidget(
+                                                  text: "Continue Reading",
+                                                  Text_Color:
+                                                      AppColors.BLACK_COLOR,
+                                                  Text_fontSize: 1.2,
+                                                  Text_fontWeight:
+                                                      FontWeight.bold,
+                                                ),
+                                                Icon(
+                                                  Icons.arrow_right_alt,
+                                                  color: Colors.black,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 18.0,
+                                          ),
+                                        ],
+                                      )
+                                    : Container(),
+                              ]),
+                            ),
+                          );
+                        });
+                  } else if (snapshot.hasError) {
                     return Center(
-                      child: Text("No Posts"),
+                      child: Text(snapshot.error.toString()),
                     );
-                  }
-                  return ListView.builder(
-                      //yr mujha kuch samj nh a rahi data print kar wa sakta h han wait
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, i) {
-                        return Container(
-                          child: Column(
-                            /// yh sary blogs lany
-                            children: [
-                              Image.network(snapshot.data?[i]["_embedded"]
-                                  ["wp:featuredmedia"][0]["source_url"]),
-                              CustomTextWidget(
-                                text: snapshot.data![i]['title']['rendered'],
-                                Text_Color: AppColors.BLACK_COLOR,
-                                Text_fontSize: 1.2,
-                                Text_fontWeight: FontWeight.bold,
-                              ),
-                              Text(
-                                snapshot.data![i]['content']['rendered']
-                                    .toString()
-                                    .replaceAll("<p>", " ")
-                                    .replaceAll("< /p>", " "),
-                                maxLines: 4,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontSize: 20.0,
-                                    color:
-                                        AppColors.BLACK_COLOR.withOpacity(0.5)),
-                              )
-                            ],
+                  } else {
+                    return Center(
+                      child: SpinKitCircle(
+                          itemBuilder: (BuildContext context, int index) {
+                        return DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: index.isEven
+                                ? AppColors.ORANGE_COLOR
+                                : AppColors.BLACK_COLOR,
                           ),
                         );
-                      });
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text(snapshot.error.toString()),
-                  );
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
+                      }),
+                    );
+                  }
+                },
+              ),
             ),
           ),
         ])

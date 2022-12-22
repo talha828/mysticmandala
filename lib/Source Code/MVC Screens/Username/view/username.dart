@@ -1,15 +1,25 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mysticmandala/Source%20Code/MVC%20Screens/Login%20Page/controller/logincontroller.dart';
 import '../../../Utils/appstrings.dart';
 import '../../../utils/appcolors.dart';
 import '../../../utils/assetpaths.dart';
+import '../../../utils/loader.dart';
+import '../../../utils/showdialog.dart';
 import '../../../widgets/Buttons/customButtons.dart';
 import '../../../widgets/Custom App bar/custom_app_bar.dart';
 import '../../../widgets/Text Fields/customTextField.dart';
 import '../../../widgets/Text/customText.dart';
 import '../../Home/view/home.dart';
+import '../controller/updatename.dart';
+import 'package:http/http.dart' as http;
+
+File? image;
 
 class Username extends StatefulWidget {
   const Username({Key? key}) : super(key: key);
@@ -19,9 +29,12 @@ class Username extends StatefulWidget {
 }
 
 class _UsernameState extends State<Username> {
+  PickedFile? _imageFile;
+  final ImagePicker _picker = ImagePicker();
+  final update = Get.put(updatenameController());
   @override
   Widget build(BuildContext context) {
-    TextEditingController First = TextEditingController();
+    TextEditingController Firstname = TextEditingController();
     TextEditingController lastname = TextEditingController();
     TextEditingController password = TextEditingController();
     bool _isHidden = true;
@@ -230,34 +243,60 @@ class _UsernameState extends State<Username> {
                 child: Column(
                   children: [
                     ListTile(
-                      leading: Container(
-                        width: 75,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        ),
-                        child: Center(
-                          child: InkWell(
-                            onTap: () {
-                              showModalBottomSheet(
-                                  backgroundColor: AppColors.ORANGE_COLOR,
-                                  context: context,
-                                  builder: ((builder) => CustombottomSheet()));
-                            },
-                            child: Image.asset(
-                              AssetPaths.DRAW_PROFILE_IMAGE,
-                              scale: 1.4,
+                      leading: _imageFile == null
+                          ? Container(
+                              width: 75,
+                              child: Center(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                        backgroundColor: AppColors.ORANGE_COLOR,
+                                        context: context,
+                                        builder: ((builder) =>
+                                            CustombottomSheet()));
+                                  },
+                                  child: Image.network(
+                                    UserImage.read('UserImage'),
+                                    scale: 1.4,
+                                  ),
+                                ),
+                                // Image.asset(
+                                //   AssetPaths.DRAW_PROFILE_IMAGE,
+                                //   scale: 1.4,
+                                // ),
+                                // Image.network(
+                                //   UserImage.read('UserImage'),
+                                //   scale: 1.4,
+                                // ),
+                              ),
+                            )
+                          : GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet(
+                                    backgroundColor: AppColors.ORANGE_COLOR,
+                                    context: context,
+                                    builder: ((builder) =>
+                                        CustombottomSheet()));
+                              },
+                              child: Container(
+                                width: 75,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: FileImage(File(_imageFile!.path)),
+                                      scale: 6),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
                       // title: CustomTextWidget(
-                      //   text: "Mystic Mandala",
+                      //   text: "", //FirstName.read('FirstName'),
                       //   Text_Color: AppColors.BLACK_COLOR,
-                      //   Text_fontSize: 1.0,
+                      //   Text_fontSize: 1.2,
                       //   Text_fontWeight: FontWeight.bold,
                       // ),
                       subtitle: CustomTextWidget(
-                        text: "Mystic Mandala", //UserEmail.read('UserEmail'),
+                        text: DisplayName.read('DisplayName'),
                         Text_Color: AppColors.BLACK_COLOR,
                         Text_fontSize: 1.2,
                         Text_fontWeight: FontWeight.bold,
@@ -283,10 +322,11 @@ class _UsernameState extends State<Username> {
                         ),
                         CustomTextField(
                           preffixIcon: Icon(Icons.person),
-                          field_Hint_Text: "Mystic",
+                          //  field_Hint_Text: FirstName.read('FirstName'),
                           Keyboard_Type: TextInputType.emailAddress,
                           field_BgColor: Colors.transparent,
-                          Field_controller: First,
+                          Field_controller: Firstname
+                            ..text = FirstName.read('FirstName'),
                           EyesuffixIcon: Icon(Icons.edit),
                         ),
                       ],
@@ -303,42 +343,43 @@ class _UsernameState extends State<Username> {
                         ),
                         CustomTextField(
                           preffixIcon: Icon(Icons.person),
-                          field_Hint_Text: "Mandala",
+                          //  field_Hint_Text: LastName.read('LastName'),
                           Keyboard_Type: TextInputType.emailAddress,
                           field_BgColor: Colors.transparent,
-                          Field_controller: lastname,
+                          Field_controller: lastname
+                            ..text = LastName.read('LastName'),
                           EyesuffixIcon: Icon(Icons.edit),
                         ),
                       ],
                     ),
-                    Stack(
-                      children: [
-                        Positioned(
-                          left: 50.0,
-                          top: 25.0,
-                          child: Image.asset(
-                            AssetPaths.FIELD_LINE,
-                            scale: 1,
-                          ),
-                        ),
-                        CustomTextField(
-                          preffixIcon: Icon(Icons.lock),
-                          field_Hint_Text: "Enter New Password",
-                          Keyboard_Type: TextInputType.visiblePassword,
-                          Obscure_Text: _isHidden,
-                          EyesuffixIcon: InkWell(
-                              onTap: _togglePasswordView,
-                              child: Icon(
-                                _isHidden
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                color: AppColors.BLACK_COLOR,
-                              )),
-                          field_BgColor: Colors.transparent,
-                          Field_controller: password,
-                        ),
-                      ],
-                    ),
+                    // Stack(
+                    //   children: [
+                    //     Positioned(
+                    //       left: 50.0,
+                    //       top: 25.0,
+                    //       child: Image.asset(
+                    //         AssetPaths.FIELD_LINE,
+                    //         scale: 1,
+                    //       ),
+                    //     ),
+                    //     CustomTextField(
+                    //       preffixIcon: Icon(Icons.lock),
+                    //       field_Hint_Text: "Enter New Password",
+                    //       Keyboard_Type: TextInputType.visiblePassword,
+                    //       Obscure_Text: _isHidden,
+                    //       EyesuffixIcon: InkWell(
+                    //           onTap: _togglePasswordView,
+                    //           child: Icon(
+                    //             _isHidden
+                    //                 ? Icons.visibility
+                    //                 : Icons.visibility_off,
+                    //             color: AppColors.BLACK_COLOR,
+                    //           )),
+                    //       field_BgColor: Colors.transparent,
+                    //       Field_controller: password,
+                    //     ),
+                    //   ],
+                    // ),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 85.0, right: 85.0, top: 80.0, bottom: 25.0),
@@ -346,7 +387,13 @@ class _UsernameState extends State<Username> {
                         Btn_Background_color: AppColors.ORANGE_COLOR,
                         Btn_TextColor: AppColors.WHITE_COLOR,
                         Btn_TextName: "Save Changes",
-                        ontapBtn: () {},
+                        ontapBtn: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          print(Firstname.text);
+                          print(lastname.text);
+                          update.Update(Firstname.text, lastname.text);
+                          //   uploadImage(Firstname.text, lastname.text);
+                        },
                       ),
                     ),
                   ],
@@ -390,21 +437,21 @@ class _UsernameState extends State<Username> {
             children: [
               TextButton.icon(
                 onPressed: () {
-                  //      takePhoto(ImageSource.camera);
+                  takePhoto(ImageSource.camera);
                 },
                 icon: Icon(
                   Icons.camera,
                   color: AppColors.ORANGE_COLOR,
                 ),
                 label: CustomTextWidget(
-                  text: "CAMERA_TEXT",
+                  text: "CAMERA",
                   Text_Color: AppColors.WHITE_COLOR,
                   Text_fontSize: 1.3,
                 ),
               ),
               TextButton.icon(
                 onPressed: () {
-                  //   takePhoto(ImageSource.gallery);
+                  takePhoto(ImageSource.gallery);
                 },
                 icon: Icon(
                   Icons.image,
@@ -421,5 +468,72 @@ class _UsernameState extends State<Username> {
         ],
       ),
     );
+  }
+
+  void takePhoto(ImageSource source) async {
+    final pickedFile = await _picker.getImage(
+      source: source,
+    );
+    setState(() {
+      _imageFile = pickedFile!;
+    });
+    if (_imageFile != null) {
+      print("image upload");
+      setState(() {
+        image = File(_imageFile!.path);
+      });
+    } else {
+      print("No Image Picked..");
+    }
+    Get.back();
+  }
+
+  Future<void> uploadImage(String firstname, String lastname) async {
+    showLoading();
+    var Token = token.read('token');
+    var Id = UserId.read('UserId');
+    Map<String, String> header = {"Authorization": 'Bearer $Token'};
+    var uri = Uri.parse(
+        'https://mysticmandala.app/?gmgt_json_api=update_member_profile');
+    var request = http.MultipartRequest('POST', uri);
+    request.headers.addAll(header);
+    request.fields['current_user_id'] = Id.toString();
+    request.fields['access_token'] = Token.toString();
+    request.fields['member_id'] = Id.toString();
+    request.fields['first_name'] = firstname;
+    request.fields['last_name'] = lastname;
+    request.fields['address'] = " ";
+    request.fields['birth_date'] = " ";
+    request.fields['city_name'] = " ";
+    request.fields['mobile'] = " ";
+    // UserName.write("Name", name);
+    if (image != null) {
+      var multipart =
+          http.MultipartFile.fromPath('profile_member_image', image!.path);
+      request.files.add(await multipart);
+    }
+    var streamResponse = await request
+        .send()
+        .timeout(const Duration(seconds: 12), onTimeout: () {
+      stopLoading();
+      ShowDialog("Message", "Time Out", Colors.red);
+      return Future.error(404);
+    });
+    var response = await http.Response.fromStream(streamResponse);
+    print(response.body);
+    var obj = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      stopLoading();
+      print(response.statusCode);
+      print("Loaded Image");
+      print(obj);
+      //  UserImage.write("UserImage", fetchLoginResponse.result.image);
+      UserImage.write("UserImage", obj['result']['iamge']);
+      Get.toNamed('/Home');
+    } else {
+      stopLoading();
+      print(response.statusCode);
+      print("NO Image Loaded");
+    }
   }
 }

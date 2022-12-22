@@ -33,7 +33,7 @@ class AppStrings {
   static const String FIRST_NAME_HINT_TEXT = "First Name";
   static const String LAST_NAME_HINT_TEXT = "Last Name";
   static const String PHONE_HINT_TEXT = "Enter Phone Number";
-  static const String DOB_HINT_TEXT = "MM/DD/YYYY";
+  static const String DOB_HINT_TEXT = "YYYY-MM-DD";
 
   ////////////////////////////// APP VALIDATION TEXTS //////////////////////////////////
   static const String MESSAGE_TEXT = "Message!";

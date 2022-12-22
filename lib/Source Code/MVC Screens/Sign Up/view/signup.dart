@@ -204,7 +204,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           CustomTextField(
                             preffixIcon: Icon(Icons.calendar_month),
                             field_Hint_Text: AppStrings.DOB_HINT_TEXT,
-                            Keyboard_Type: TextInputType.datetime,
+                            Keyboard_Type: TextInputType.visiblePassword,
                             field_BgColor: Colors.transparent,
                             Field_controller: DOB,
                           ),
@@ -290,7 +290,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         width: double.infinity,
                         child: Padding(
                           padding:
-                              const EdgeInsets.only(left: 12.0, right: 12.0),
+                              const EdgeInsets.only(left: 12.0, right: 5.0),
                           child: Row(
                             children: [
                               CustomTextWidget(
@@ -298,7 +298,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                 Text_Color: AppColors.BLACK_COLOR,
                                 Text_fontSize: 1.2,
                               ),
-                              Expanded(
+                              Container(
+                                width: 124.0,
                                 child: RadioListTile(
                                   title: Text("Male"),
                                   value: "male",
@@ -311,7 +312,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                   },
                                 ),
                               ),
-                              Expanded(
+                              Container(
+                                width: 150.0,
                                 child: RadioListTile(
                                   title: Text("Female"),
                                   value: "female",
@@ -362,6 +364,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           Btn_TextName: AppStrings.SIGN_UP_TEXT,
                           //font_weight: FontWeight.bold,
                           ontapBtn: () {
+                            FocusManager.instance.primaryFocus?.unfocus();
                             print(firstname.text);
                             print(lastname.text);
                             print(email.text);
@@ -371,13 +374,14 @@ class _SignupScreenState extends State<SignupScreen> {
                             print(password.text);
                             print(gender);
                             SignAuth.CreateNewUser(
-                                firstname.text,
-                                lastname.text,
-                                email.text,
-                                DOB.text,
-                                number.text,
-                                password.text,
-                                gender!);
+                              firstname.text,
+                              lastname.text,
+                              email.text,
+                              password.text,
+                              number.text,
+                              gender!,
+                              DOB.text,
+                            );
                           },
                         ),
                       ),
@@ -388,47 +392,12 @@ class _SignupScreenState extends State<SignupScreen> {
                         child: CustomTextWidget(
                           text: "Already have an account? Login here",
                           Text_Color: AppColors.BLACK_COLOR,
-                          Text_fontSize: 1.0,
+                          Text_fontSize: 1.1,
                           Text_fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(
-                        height: 25.0,
-                      ),
-                      CustomTextWidget(
-                        text: AppStrings.OTHER_LOGINS_TEXT,
-                        Text_Color: AppColors.BLACK_COLOR,
-                        Text_fontSize: 1.0,
-                      ),
-                      SizedBox(
-                        height: 24.0,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            AssetPaths.GOOGLE_BTN,
-                            scale: 0.8,
-                          ),
-                          SizedBox(
-                            width: 26.0,
-                          ),
-                          Image.asset(
-                            AssetPaths.FB_ICON,
-                            scale: 0.8,
-                          ),
-                          SizedBox(
-                            width: 26.0,
-                          ),
-                          if (Platform.isIOS)
-                            Image.asset(
-                              AssetPaths.APPLE_BTN,
-                              scale: 0.8,
-                            ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 25.0,
+                        height: 40.0,
                       ),
                     ],
                   ),

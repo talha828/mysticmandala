@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+int count = 0;
+
 class Post {
   String baseUrl = "https://mysticmandala.app/wp-json/wp/v2/posts?_embed";
   Future<List> getAllPost() async {

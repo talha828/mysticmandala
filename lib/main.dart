@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,7 @@ import 'Source Code/MVC Screens/Events/view/eventscreen.dart';
 import 'Source Code/MVC Screens/Fee payment/view/payment.dart';
 import 'Source Code/MVC Screens/Forgot Screen/view/forgotscreen.dart';
 import 'Source Code/MVC Screens/Gallery/view/gallery.dart';
+import 'Source Code/MVC Screens/Gallery/view/gallerybtn.dart';
 import 'Source Code/MVC Screens/Home/view/home.dart';
 import 'Source Code/MVC Screens/Login Page/view/loginpage.dart';
 import 'Source Code/MVC Screens/Media/view/media.dart';
@@ -71,6 +73,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      builder: BotToastInit(),
+      navigatorObservers: [BotToastNavigatorObserver()],
       //  defaultTransition: Transition.leftToRight,
       initialRoute: '/',
       //  transitionDuration: Duration(milliseconds: 300),
@@ -88,7 +92,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/OTPScreen', page: () => OTPScreen()),
         GetPage(name: '/ChangePass', page: () => ChangePassScreen()),
         GetPage(name: '/TermsScreen', page: () => TermsCondition()),
-        GetPage(name: '/BlogDetails', page: () => BlogDetails()),
+        //GetPage(name: '/BlogDetails', page: () => BlogDetails()),
         GetPage(name: '/Events', page: () => Eventsscreens()),
         GetPage(name: '/Membership', page: () => MembershipPlanScreen()),
         GetPage(name: '/Username', page: () => Username()),
@@ -124,11 +128,14 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/SleepMusic', page: () => SleepMusic()),
         GetPage(name: '/MediaSelect', page: () => MediaSelect()),
         GetPage(name: '/Playlist', page: () => Playlist()),
-        GetPage(name: '/EventGallery', page: () => EventGallery()),
+        //GetPage(name: '/EventGallery', page: () => EventGallery()),
         GetPage(name: '/MandalaVideos', page: () => MandalaVideos()),
         GetPage(name: '/Notifications', page: () => Notifications()),
         GetPage(name: '/BlogDetails2', page: () => BlogDetails2()),
         GetPage(name: '/BlogDetails3', page: () => BlogDetails3()),
+        GetPage(name: '/EventGalleryBtn', page: () => EventGalleryBtn()),
+        GetPage(name: '/OTPScreen', page: () => OTPScreen()),
+        GetPage(name: '/ChangePassScreen', page: () => ChangePassScreen()),
       ],
     );
   }

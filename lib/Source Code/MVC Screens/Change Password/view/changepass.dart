@@ -9,6 +9,7 @@ import 'package:mysticmandala/Source%20Code/widgets/Text/customText.dart';
 import '../../../utils/assetpaths.dart';
 import '../../../utils/newpassValidation.dart';
 import '../../../widgets/Buttons/customButtons.dart';
+import '../controller/controller.dart';
 
 class ChangePassScreen extends StatefulWidget {
   ChangePassScreen({Key? key}) : super(key: key);
@@ -20,7 +21,7 @@ class ChangePassScreen extends StatefulWidget {
 class _ChangePassScreenState extends State<ChangePassScreen> {
   TextEditingController newpass = TextEditingController();
   TextEditingController NewConfirmpass = TextEditingController();
-  final NewPassVal = Get.put(NewPassValidation());
+  final NewPass = Get.put(ChangePassController());
   bool _isHidden = true;
   bool _isHidden1 = true;
 
@@ -126,8 +127,10 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
                           Btn_TextName: AppStrings.CONFIRM_TEXT,
                           //font_weight: FontWeight.bold,
                           ontapBtn: () {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            NewPass.ChngPass(newpass.text);
                             //     NewPassVal.NewPassVal(newpass.text, NewConfirmpass.text);
-                            Get.toNamed('/Login');
+                            //   Get.toNamed('/Login');
                           },
                         ),
                       ),

@@ -334,7 +334,7 @@ class _CheckoutState extends State<Checkout> {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.toNamed('/BookingDetails');
+                        Get.toNamed('/Home');
                       },
                       child: Container(
                         width: double.infinity,

@@ -9,6 +9,7 @@ import 'package:mysticmandala/Source%20Code/widgets/Text/customText.dart';
 import '../../../utils/assetpaths.dart';
 import '../../../utils/forgotvalidation.dart';
 import '../../../widgets/Buttons/customButtons.dart';
+import '../controller/forgot.dart';
 
 class ForgotScreen extends StatefulWidget {
   ForgotScreen({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class ForgotScreen extends StatefulWidget {
 
 class _ForgotScreenState extends State<ForgotScreen> {
   TextEditingController email = TextEditingController();
-  final forgotVal = Get.put(ForgotValidation());
+  final forgot = Get.put(ForgotController());
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +91,8 @@ class _ForgotScreenState extends State<ForgotScreen> {
                           //font_weight: FontWeight.bold,
                           ontapBtn: () {
                             // forgotVal.ForgotVal(email.text);
-                            Get.toNamed('/OTPScreen');
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            forgot.ForgotPass(email.text);
                           },
                         ),
                       ),

@@ -28,7 +28,7 @@ class CustomAppBar extends StatelessWidget {
         child: Align(
           alignment: Alignment.topCenter,
           child: Padding(
-            padding: const EdgeInsets.only(left: 22.0, right: 5.0, top: 8.0),
+            padding: const EdgeInsets.only(right: 5.0, top: 8.0),
             child: Row(
               children: [
                 Builder(builder: (context) {
@@ -36,9 +36,16 @@ class CustomAppBar extends StatelessWidget {
                       onTap: () {
                         Scaffold.of(context).openDrawer();
                       },
-                      child: Image.asset(
-                        AssetPaths.DRAWER_ICON,
-                        scale: 1.0,
+                      child: Container(
+                        width: 72,
+                        decoration: const BoxDecoration(
+                          color: Colors.transparent,
+                        ),
+                        alignment: Alignment.center,
+                        child: Image.asset(
+                          AssetPaths.DRAWER_ICON,
+                          scale: 1.0,
+                        ),
                       ));
                 }),
                 Spacer(),

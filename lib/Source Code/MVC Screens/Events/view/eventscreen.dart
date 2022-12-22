@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:mysticmandala/Source%20Code/MVC%20Screens/Events/view/events.dart';
 
 import '../../../utils/appcolors.dart';
 import '../../../utils/assetpaths.dart';
@@ -17,6 +19,14 @@ class Eventsscreens extends StatefulWidget {
 }
 
 class _EventsscreensState extends State<Eventsscreens> {
+  Events Eventsservice = Events();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Eventsservice.getAllEvents();
+  }
+
   @override
   Widget build(BuildContext context) {
     int _selectedIndex = 0;
@@ -208,48 +218,174 @@ class _EventsscreensState extends State<Eventsscreens> {
               text: "EVENTS",
             ),
           ]),
+          // Expanded(
+          //   child: ListView.builder(
+          //     physics: BouncingScrollPhysics(),
+          //     shrinkWrap: true,
+          //     scrollDirection: Axis.vertical,
+          //     itemCount: 3,
+          //     itemBuilder: (BuildContext context, int index) => Container(
+          //       child: Padding(
+          //         padding: const EdgeInsets.all(16.0),
+          //         child: Column(
+          //           children: [
+          //             CustomTextWidget(
+          //               text:
+          //                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus aliquet finibus nibh ut tincidunt.",
+          //               Text_Color: Colors.black,
+          //               Text_fontSize: 1.4,
+          //               Text_fontWeight: FontWeight.w500,
+          //             ),
+          //             SizedBox(
+          //               height: 10.0,
+          //             ),
+          //             Image.asset(
+          //               AssetPaths.NEW_EVENT_IMAGE,
+          //               scale: 1,
+          //             ),
+          //             SizedBox(
+          //               height: 12.0,
+          //             ),
+          //             SizedBox(
+          //               height: 10.0,
+          //             ),
+          //             InkWell(
+          //                 onTap: () {
+          //                   Get.toNamed('/CheckoutPage');
+          //                 },
+          //                 child: OutlineButtons()),
+          //             SizedBox(
+          //               height: 20.0,
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Expanded(
-            child: ListView.builder(
-              physics: BouncingScrollPhysics(),
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemCount: 3,
-              itemBuilder: (BuildContext context, int index) => Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      CustomTextWidget(
-                        text:
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus aliquet finibus nibh ut tincidunt.",
-                        Text_Color: Colors.black,
-                        Text_fontSize: 1.4,
-                        Text_fontWeight: FontWeight.w500,
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Image.asset(
-                        AssetPaths.NEW_EVENT_IMAGE,
-                        scale: 1,
-                      ),
-                      SizedBox(
-                        height: 12.0,
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      InkWell(
-                          onTap: () {
-                            Get.toNamed('/CheckoutPage');
-                          },
-                          child: OutlineButtons()),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                    ],
-                  ),
-                ),
+            child: Container(
+              child: FutureBuilder<List>(
+                future: Eventsservice.getAllEvents(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data?.length == 0) {
+                      return Center(
+                        child: Text("No Events"),
+                      );
+                    }
+                    return ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, i) {
+                          return Container(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 12.0, right: 20.0),
+                              child: Column(children: [
+                                // snapshot.data?[i]['tags'].toString() != '[59]'
+                                //     ?
+                                snapshot.data![i]['categories'][0]['name'] ==
+                                        "Events"
+                                    ? Column(
+                                        children: [
+                                          //  Text("Yh 59 Tag waly  hai"),
+                                          Align(
+                                            child: CustomTextWidget(
+                                              text: snapshot.data?[i]['name'],
+                                              Text_Color: AppColors.BLACK_COLOR,
+                                              Text_fontSize: 1.2,
+                                              Text_fontWeight: FontWeight.bold,
+                                            ),
+                                            alignment: Alignment.topLeft,
+                                          ),
+                                          SizedBox(
+                                            height: 12.0,
+                                          ),
+                                          // Align(
+                                          //   child: CustomTextWidget(
+                                          //     text: snapshot.data?[i]['tags']
+                                          //         .toString(),
+                                          //     Text_Color: AppColors.BLACK_COLOR
+                                          //         .withOpacity(0.5),
+                                          //     Text_fontSize: 1.2,
+                                          //     Text_fontWeight: FontWeight.bold,
+                                          //   ),
+                                          //   alignment: Alignment.topLeft,
+                                          // ),
+                                          // SizedBox(
+                                          //   height: 12.0,
+                                          // ),
+                                          Image.network(snapshot.data?[i]
+                                              ['images'][0]['src']),
+                                          // SizedBox(
+                                          //   height: 12.0,
+                                          // ),
+                                          // CustomTextWidget(
+                                          //   text: snapshot.data![i]
+                                          //       ['categories'][0]['name'],
+                                          //   Text_Color: AppColors.BLACK_COLOR,
+                                          //   Text_fontSize: 1.2,
+                                          //   Text_fontWeight: FontWeight.bold,
+                                          // ),
+                                          // SizedBox(
+                                          //   height: 12.0,
+                                          // ),
+                                          // Text(
+                                          //   snapshot.data![i]['content']['rendered']
+                                          //       .toString()
+                                          //       .replaceAll("<p>", "")
+                                          //       .replaceAll("</p>", "")
+                                          //       .replaceAll("<b>", "")
+                                          //       .replaceAll("</b>", "")
+                                          //       .replaceAll("<i>", "")
+                                          //       .replaceAll("<br />", "")
+                                          //       .replaceAll("</i>", "")
+                                          //       .replaceAll("&nbsp;", " "),
+                                          //   maxLines: 14,
+                                          //   overflow: TextOverflow.ellipsis,
+                                          //   textAlign: TextAlign.justify,
+                                          //   style: TextStyle(
+                                          //       fontSize: 16.0,
+                                          //       color: AppColors.BLACK_COLOR),
+                                          // ),
+                                          SizedBox(
+                                            height: 20.0,
+                                          ),
+                                          InkWell(
+                                              onTap: () {
+                                                Get.toNamed('/CheckoutPage');
+                                              },
+                                              child: OutlineButtons()),
+                                          SizedBox(
+                                            height: 40.0,
+                                          ),
+                                        ],
+                                      )
+                                    : Container(),
+                              ]),
+                            ),
+                          );
+                        });
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text(snapshot.error.toString()),
+                    );
+                  } else {
+                    return Center(
+                      child: SpinKitCircle(
+                          itemBuilder: (BuildContext context, int index) {
+                        return DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: index.isEven
+                                ? AppColors.ORANGE_COLOR
+                                : AppColors.BLACK_COLOR,
+                          ),
+                        );
+                      }),
+                    );
+                  }
+                },
               ),
             ),
           ),

@@ -10,7 +10,8 @@ import '../../../../widgets/Text/customText.dart';
 import '../../../Home/view/home.dart';
 
 class BlogDetails extends StatefulWidget {
-  const BlogDetails({Key? key}) : super(key: key);
+  final data;
+  const BlogDetails({Key? key, required this.data}) : super(key: key);
 
   @override
   State<BlogDetails> createState() => _BlogDetailsState();
@@ -267,22 +268,13 @@ class _BlogDetailsState extends State<BlogDetails> {
                   child: Padding(
                       padding: const EdgeInsets.only(
                         top: 18.0,
-                        left: 12.0,
-                        right: 12.0,
+                        left: 20.0,
+                        right: 20.0,
                       ),
                       child: Column(children: [
                         Container(
                           child: Column(
                             children: [
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: CustomTextWidget(
-                                  text: "You are not the Doer",
-                                  Text_Color: Colors.black,
-                                  Text_fontSize: 1.4,
-                                  Text_fontWeight: FontWeight.bold,
-                                ),
-                              ),
                               // SizedBox(
                               //   height: 12.0,
                               // ),
@@ -306,84 +298,52 @@ class _BlogDetailsState extends State<BlogDetails> {
                               SizedBox(
                                 height: 14.0,
                               ),
-                              Container(
-                                height: 230.0,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10.0)),
-                                  image: DecorationImage(
-                                    image:
-                                        AssetImage(AssetPaths.NEW_BLOG_2_IMAGE),
-                                    fit: BoxFit.fill,
-                                  ),
+                              Align(
+                                child: CustomTextWidget(
+                                  text: widget.data['_embedded']['author'][0]
+                                      ['name'],
+                                  Text_Color:
+                                      AppColors.BLACK_COLOR.withOpacity(0.5),
+                                  Text_fontSize: 1.2,
+                                  Text_fontWeight: FontWeight.bold,
+                                ),
+                                alignment: Alignment.topLeft,
+                              ),
+                              SizedBox(
+                                height: 14.0,
+                              ),
+                              Image.network(widget.data['_embedded']
+                                  ['wp:featuredmedia'][0]['source_url']),
+                              SizedBox(
+                                height: 14.0,
+                              ),
+                              Align(
+                                alignment: Alignment.center,
+                                child: CustomTextWidget(
+                                  text: widget.data['title']['rendered'],
+                                  Text_Color: Colors.black,
+                                  Text_fontSize: 1.4,
+                                  Text_fontWeight: FontWeight.bold,
                                 ),
                               ),
                               SizedBox(
                                 height: 14.0,
                               ),
                               Text(
-                                "Life happens. And in your life everything is happening. It is happening at a level that is both within and beyond human understanding and it is happening all the time. Somehow, we have been tricked into believing that we are doing something - and I speak about the flow of life - from the source and back to it. Too often we take the credit for everything that is good that has happened to us and we blame God or source for everything that has not been pleasant in our lives. Everything happens on its own, we must just stay alert, be aware. ",
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  color: Colors.black.withOpacity(0.5),
-                                ),
+                                widget.data['content']['rendered']
+                                    .toString()
+                                    .replaceAll("<p>", "")
+                                    .replaceAll("</p>", "")
+                                    .replaceAll("<b>", "")
+                                    .replaceAll("</b>", "")
+                                    .replaceAll("<i>", "")
+                                    .replaceAll("<br />", "")
+                                    .replaceAll("</i>", "")
+                                    .replaceAll("&nbsp;", " "),
                                 textAlign: TextAlign.justify,
-                              ),
-                              SizedBox(
-                                height: 14.0,
-                              ),
-                              Text(
-                                "Any change or shift in life is just the awareness of life. You have seen the flowers in the garden hundreds of times, but when you see them with softness, silently, peacefully, meditatively, you become aware of their beauty that you were not aware of before. ",
                                 style: TextStyle(
-                                  fontSize: 18.0,
-                                  color: Colors.black.withOpacity(0.5),
-                                ),
-                                textAlign: TextAlign.justify,
-                              ),
-                              SizedBox(
-                                height: 14.0,
-                              ),
-                              Text(
-                                "This beauty was not there for you to enjoy earlier - Something within you shifted and your view shifted and hence your experience shifted. And it just happens. Just like your breath happens, like you heart beats - by itself. Everything in nature flows, it is only man that resists. Stop the resistance, drop the barriers. Remember you are not the doer, you are the expereincer. Live in joy, patiently, and allow your life to be a celebration - a celebration of life itself.",
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  color: Colors.black.withOpacity(0.5),
-                                ),
-                                textAlign: TextAlign.justify,
-                              ),
-                              SizedBox(
-                                height: 14.0,
-                              ),
-                              Text(
-                                "In the words of Kabir - one of the most significant, simple and spiritual poet from India",
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  color: Colors.black.withOpacity(0.5),
-                                ),
-                                textAlign: TextAlign.justify,
-                              ),
-                              SizedBox(
-                                height: 14.0,
-                              ),
-                              Text(
-                                "Dheere Dheere Re Mana, Dheere Sub Kucch Hoye\nMali Seenche So Ghara, Ritu Aaye Phal Hoye",
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  color: Colors.black.withOpacity(0.5),
-                                ),
-                                textAlign: TextAlign.justify,
-                              ),
-                              SizedBox(
-                                height: 14.0,
-                              ),
-                              Text(
-                                "Translation\nSlowly O mind, everything in own pace will happen\nThe Gardener may water with a hundred pots, but the fruit arrives only in its season",
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  color: Colors.black.withOpacity(0.5),
-                                ),
-                                textAlign: TextAlign.justify,
+                                    fontSize: 16.0,
+                                    color: AppColors.BLACK_COLOR),
                               ),
                               SizedBox(
                                 height: 18.0,

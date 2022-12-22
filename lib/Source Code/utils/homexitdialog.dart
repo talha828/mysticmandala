@@ -14,6 +14,7 @@ Future<void> showMyDialog(context) async {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return Dialog(
+          backgroundColor: AppColors.LIGHT_ORANGE_COLOR,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(22.0))),
           child: Column(

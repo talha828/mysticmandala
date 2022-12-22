@@ -9,6 +9,8 @@ import '../../../widgets/Custom App bar/custom_app_bar.dart';
 import '../../../widgets/Text Fields/customTextField.dart';
 import '../../../widgets/Text/customText.dart';
 import '../../Home/view/home.dart';
+import '../../Login Page/controller/logincontroller.dart';
+import '../controller/passchng.dart';
 
 class Passwordchange extends StatefulWidget {
   const Passwordchange({Key? key}) : super(key: key);
@@ -20,6 +22,7 @@ class Passwordchange extends StatefulWidget {
 class _PasswordchangeState extends State<Passwordchange> {
   @override
   Widget build(BuildContext context) {
+    final chngpass = Get.put(updatepassController());
     TextEditingController email = TextEditingController();
     TextEditingController confirm = TextEditingController();
     TextEditingController password = TextEditingController();
@@ -242,7 +245,8 @@ class _PasswordchangeState extends State<Passwordchange> {
                         ),
                       ),
                       subtitle: CustomTextWidget(
-                        text: "Mystic Mandala", //UserEmail.read('UserEmail'),
+                        text: DisplayName.read(
+                            'DisplayName'), //UserEmail.read('UserEmail'),
                         Text_Color: AppColors.BLACK_COLOR,
                         Text_fontSize: 1.2,
                         Text_fontWeight: FontWeight.bold,
@@ -271,7 +275,7 @@ class _PasswordchangeState extends State<Passwordchange> {
                           field_Hint_Text: "Enter New Password",
                           Keyboard_Type: TextInputType.emailAddress,
                           field_BgColor: Colors.transparent,
-                          Field_controller: email,
+                          Field_controller: password,
                           EyesuffixIcon: Icon(Icons.edit),
                         ),
                       ],
@@ -296,34 +300,34 @@ class _PasswordchangeState extends State<Passwordchange> {
                         ),
                       ],
                     ),
-                    Stack(
-                      children: [
-                        Positioned(
-                          left: 50.0,
-                          top: 25.0,
-                          child: Image.asset(
-                            AssetPaths.FIELD_LINE,
-                            scale: 1,
-                          ),
-                        ),
-                        CustomTextField(
-                          preffixIcon: Icon(Icons.lock),
-                          field_Hint_Text: "Enter  Password",
-                          Keyboard_Type: TextInputType.visiblePassword,
-                          Obscure_Text: _isHidden,
-                          EyesuffixIcon: InkWell(
-                              onTap: _togglePasswordView,
-                              child: Icon(
-                                _isHidden
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                color: AppColors.BLACK_COLOR,
-                              )),
-                          field_BgColor: Colors.transparent,
-                          Field_controller: password,
-                        ),
-                      ],
-                    ),
+                    // Stack(
+                    //   children: [
+                    //     Positioned(
+                    //       left: 50.0,
+                    //       top: 25.0,
+                    //       child: Image.asset(
+                    //         AssetPaths.FIELD_LINE,
+                    //         scale: 1,
+                    //       ),
+                    //     ),
+                    //     CustomTextField(
+                    //       preffixIcon: Icon(Icons.lock),
+                    //       field_Hint_Text: "Enter  Password",
+                    //       Keyboard_Type: TextInputType.visiblePassword,
+                    //       Obscure_Text: _isHidden,
+                    //       EyesuffixIcon: InkWell(
+                    //           onTap: _togglePasswordView,
+                    //           child: Icon(
+                    //             _isHidden
+                    //                 ? Icons.visibility
+                    //                 : Icons.visibility_off,
+                    //             color: AppColors.BLACK_COLOR,
+                    //           )),
+                    //       field_BgColor: Colors.transparent,
+                    //       Field_controller: password,
+                    //     ),
+                    //   ],
+                    // ),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 85.0, right: 85.0, top: 80.0, bottom: 25.0),
@@ -331,7 +335,10 @@ class _PasswordchangeState extends State<Passwordchange> {
                         Btn_Background_color: AppColors.ORANGE_COLOR,
                         Btn_TextColor: AppColors.WHITE_COLOR,
                         Btn_TextName: "Save Changes",
-                        ontapBtn: () {},
+                        ontapBtn: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          chngpass.UpdatePass(password.text);
+                        },
                       ),
                     ),
                   ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../meditationp22.dart';
+import '../../Login Page/controller/logincontroller.dart';
 import '../../Login Page/view/loginpage.dart';
 
 class AppSplashScreenController extends GetxController {
@@ -13,7 +14,8 @@ class AppSplashScreenController extends GetxController {
   }
 
   SplashScreenNavigateToNextPage() async =>
-      await Future.delayed(const Duration(seconds: 6)).then((value) => Get.off(
-            () => LoginScreen(),
-          ));
+      await Future.delayed(const Duration(seconds: 6))
+          .then((value) => Get.off(() => LoginScreen())
+              //   Get.toNamed('/Home'),
+              );
 }

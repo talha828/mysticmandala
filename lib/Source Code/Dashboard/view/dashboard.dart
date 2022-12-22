@@ -366,7 +366,7 @@ class _DashboardState extends State<Dashboard> {
                     scale: 1.1,
                   ),
                   onTap: () {
-                    Get.toNamed('/EventGallery');
+                    Get.toNamed('/EventGalleryBtn');
                   },
                 ),
                 InkWell(
