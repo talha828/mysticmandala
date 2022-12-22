@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -22,7 +23,7 @@ import '../../Blogs/All Blogs/view/post.dart';
 import '../../Login Page/controller/logincontroller.dart';
 import '../../Videos/view/videos.dart';
 import '../../logout/controller/logoutcontroller.dart';
-
+import 'package:http/http.dart' as http;
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -41,16 +42,22 @@ class _HomePageState extends State<HomePage>
     initialPage: 0,
   );
   late VideoPlayerController _controller;
+
+  getVideo()async{
+    Uri url=Uri.parse("https://mysticmandala.app/wp-json/wp/v2/media?categories=5");
+    var response=await http.get(url);
+    var data=jsonDecode(response.body);
+    print(data[0]['guid']["rendered"].toString());
+    _controller = VideoPlayerController.network(data[0]['guid']["rendered"].toString())..initialize().then((_) {
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      setState(() {});
+    });
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
-    _controller = VideoPlayerController.network(
-        'https://mysticmandala.app/wp-content/uploads/2020/12/About-Mystic-Mandala-1.mp4')
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
-      });
     super.initState();
+    getVideo();
     postservice.getAllPost();
     Timer.periodic(Duration(seconds: 3), (Timer timer) {
       Future.delayed(const Duration(seconds: 3), () {
@@ -122,6 +129,17 @@ class _HomePageState extends State<HomePage>
           return PopUpMsg ?? false;
         },
         child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+        onPressed: () {
+        setState(() {
+        _controller.value.isPlaying
+        ? _controller.pause()
+            : _controller.play();
+        });
+        },
+        child: Icon(
+        _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+        )),
             //    backgroundColor: AppColors.LIGHT_ORANGE_COLOR,
             drawer: Drawer(
               child: drawer(),
@@ -779,6 +797,7 @@ class _HomePageState extends State<HomePage>
                                   ],
                                 ),
                                 //////////////////////////////////////////////////////////////////////////
+                                //talha
                                 Container(
                                   height: 200.0,
                                   child: _controller.value.isInitialized
